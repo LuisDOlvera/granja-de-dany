@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>La Granja de Dany · ¡Cumple 3 añitos!</title>
+        <meta
+            name="description"
+            content="Invitación al cumpleaños de Dany. Sábado 29 de agosto, 10:00 am. ¡Ven a la granja!"
+        />
+
+        <!-- Fuentes cartoon redondeadas (contorno tipo sticker vía CSS) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap"
+            rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐮</text></svg>"
+        />
+    </head>
+    <body>
+        <!-- ============ MÚSICA DE FONDO ============ -->
+        <audio
+            id="bg-music"
+            src="assets/musica-fondo.mp3"
+            loop
+            preload="auto"
+        ></audio>
+        <button
+            id="music-toggle"
+            class="music-toggle"
+            type="button"
+            aria-label="Silenciar música"
+            aria-pressed="false"
+        >
+            🔊
+        </button>
+
+        <!-- ============ BANDERINES (bunting) ============ -->
+        <div class="bunting" aria-hidden="true">
+            <svg
+                class="bunting__svg"
+                viewBox="0 0 1200 70"
+                preserveAspectRatio="none"
+                role="presentation"
+            >
+                <path
+                    class="bunting__string"
+                    d="M0,12 Q600,52 1200,12"
+                    fill="none"
+                />
+            </svg>
+            <div class="bunting__flags" id="bunting-flags"></div>
+        </div>
+
+        <!-- ============ HERO ============ -->
+        <header class="hero" id="inicio">
+            <div class="hero__sky" aria-hidden="true">
+                <span class="sun"></span>
+                <span class="cloud cloud--1"></span>
+                <span class="cloud cloud--2"></span>
+                <span class="cloud cloud--3"></span>
+            </div>
+
+            <div class="hero__content">
+                <!-- Letrero de madera colgado: elemento firma -->
+                <div class="signboard reveal" data-reveal>
+                    <span class="signboard__rope signboard__rope--l"></span>
+                    <span class="signboard__rope signboard__rope--r"></span>
+                    <div class="signboard__plank">
+                        <p class="signboard__eyebrow">QUIERO INVITARTE A:</p>
+                        <h1 class="signboard__title sticker">
+                            La Granja<br />de Dany
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Cintillo de edad con destellos -->
+                <div class="age reveal" data-reveal>
+                    <span class="age__spark age__spark--1">✦</span>
+                    <span class="age__spark age__spark--2">✦</span>
+                    <span class="age__spark age__spark--3">✦</span>
+                    <span class="age__spark age__spark--4">✦</span>
+                    <p class="age__ribbon">¡Cumple</p>
+                    <span class="age__num sticker">3</span>
+                    <p class="age__ribbon">añitos!</p>
+                </div>
+
+                <a class="btn btn--pulse reveal" data-reveal href="#info"
+                    >Ver la invitación 🎉</a
+                >
+            </div>
+
+            <!-- Personajes de granja a los lados -->
+            <div class="hero__animals" aria-hidden="true">
+                <div class="animal animal--left" id="animal-cow"></div>
+                <div class="animal animal--right" id="animal-horse"></div>
+            </div>
+
+            <!-- Pasto -->
+            <div class="hero__ground" aria-hidden="true">
+                <span class="grass-blades"></span>
+                <span class="animal animal--chick" id="animal-chick"></span>
+                <span class="hero__flower hero__flower--1">🌻</span>
+                <span class="hero__flower hero__flower--2">🌼</span>
+                <span class="hero__flower hero__flower--3">🌸</span>
+            </div>
+
+            <a class="scrollcue" href="#cuenta" aria-label="Bajar">
+                <span></span>
+            </a>
+        </header>
+
+        <main>
+            <!-- ============ CUENTA REGRESIVA ============ -->
+            <section class="section countdown" id="cuenta">
+                <div class="wrap">
+                    <p class="eyebrow reveal" data-reveal>
+                        🐔 Prepara tus botas
+                    </p>
+                    <h2 class="h2 sticker reveal" data-reveal>
+                        Faltan para la fiesta
+                    </h2>
+                    <div class="clock reveal" data-reveal>
+                        <div class="clock__cell">
+                            <span class="clock__num" id="cd-days">00</span
+                            ><span class="clock__label">Días</span>
+                        </div>
+                        <div class="clock__cell">
+                            <span class="clock__num" id="cd-hours">00</span
+                            ><span class="clock__label">Horas</span>
+                        </div>
+                        <div class="clock__cell">
+                            <span class="clock__num" id="cd-mins">00</span
+                            ><span class="clock__label">Minutos</span>
+                        </div>
+                        <div class="clock__cell">
+                            <span class="clock__num" id="cd-secs">00</span
+                            ><span class="clock__label">Segundos</span>
+                        </div>
+                    </div>
+                    <p class="clock__done" id="cd-done" hidden>
+                        ¡Hoy es el gran día! 🎈 Nos vemos en la granja.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============ INVITACIÓN DESTACADA ============ -->
+            <section class="section featured" id="info">
+                <div class="wrap featured__grid">
+                    <figure class="featured__art reveal" data-reveal>
+                        <img
+                            src="assets/hero-invitacion.webp"
+                            alt="Invitación ilustrada de La Granja de Dany"
+                            loading="lazy"
+                        />
+                    </figure>
+                    <div class="featured__text reveal" data-reveal>
+                        <p class="eyebrow">La fiesta más tierna del corral</p>
+                        <h2 class="h2 sticker">
+                            ¡Ven a jugar<br />a la granja!
+                        </h2>
+                        <p class="lead">
+                            Habrá vaquitas, gallinas, caballitos y muchos
+                            juegos. Dany cumple <strong>3 añitos</strong> y
+                            quiere celebrar contigo entre pacas de heno, música
+                            y pastel. 🐮🎂
+                        </p>
+                        <a class="btn" href="#ubicacion">Cómo llegar 📍</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ INFO DEL EVENTO ============ -->
+            <section class="section info">
+                <div class="wrap">
+                    <h2 class="h2 sticker center reveal" data-reveal>
+                        Datos del festejo
+                    </h2>
+                    <div class="cards">
+                        <article class="card reveal" data-reveal>
+                            <div class="card__icon">📅</div>
+                            <h3 class="card__title">Fecha</h3>
+                            <p class="card__big">Sábado 29</p>
+                            <p class="card__sub">de Agosto, 2026</p>
+                        </article>
+                        <article class="card reveal" data-reveal>
+                            <div class="card__icon">⏰</div>
+                            <h3 class="card__title">Hora</h3>
+                            <p class="card__big">10:00 am</p>
+                            <p class="card__sub">
+                                Se llevará a cabo la Ceremonia Religiosa de
+                                Presentación ⛪️ con motivo de los 3 años
+                                cumplidos de Dany 👧🏻. Se celebrará dentro del
+                                salón de fiestas Zass 🛝 y dará comienzo en
+                                punto de las 10:00 am. ⏰ Por lo cual tu
+                                presencia y tu puntualidad a esta Ceremonia es
+                                muy importante para nosotros.
+                            </p>
+                        </article>
+                        <article class="card reveal" data-reveal>
+                            <div class="card__icon">🚜</div>
+                            <h3 class="card__title">Lugar</h3>
+                            <p class="card__big">
+                                Salón de fiestas infantiles ZASS Aragón.
+                            </p>
+                            <p class="card__sub">
+                                Av. Francisco Morazán 100 Col. La Pradera,
+                                G.A.M.
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ GALERÍA (grid moderno) ============ -->
+            <section class="section gallery" id="galeria">
+                <div class="wrap">
+                    <p class="eyebrow center reveal" data-reveal>
+                        📸 Recuerdos de la granja
+                    </p>
+                    <h2 class="h2 sticker center reveal" data-reveal>
+                        Nuestra galería
+                    </h2>
+                    <div class="grid">
+                        <figure
+                            class="grid__item grid__item--tall reveal"
+                            data-reveal
+                            style="--ph: 1"
+                        >
+                            <img
+                                src="assets/Dany-Bartolito.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item reveal"
+                            data-reveal
+                            style="--ph: 2"
+                        >
+                            <img
+                                src="assets/Dany-Zenon-convertido-de-png.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item reveal"
+                            data-reveal
+                            style="--ph: 3"
+                        >
+                            <img
+                                src="assets/Dany-Lola.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item grid__item--wide reveal"
+                            data-reveal
+                            style="--ph: 4"
+                        >
+                            <img
+                                src="assets/Dany-Zenon-Sobrinos.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item reveal"
+                            data-reveal
+                            style="--ph: 5"
+                        >
+                            <img
+                                src="assets/Dany-Zenon-Sobrinos2.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item reveal"
+                            data-reveal
+                            style="--ph: 6"
+                        >
+                            <img
+                                src="assets/Dany-Sobrino1.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ CARRUSEL ============ -->
+            <section class="section carousel" id="carrusel">
+                <div class="wrap">
+                    <h2 class="h2 sticker center reveal" data-reveal>
+                        Momentos favoritos
+                    </h2>
+                    <div class="slider reveal" data-reveal>
+                        <div class="slider__track" id="slider-track">
+                            <div class="slide">
+                                <img
+                                    src="assets/Carrusel1.webp"
+                                    alt="Momento 1"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div class="slide">
+                                <img
+                                    src="assets/Carrusel2.webp"
+                                    alt="Momento 1"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div class="slide">
+                                <img
+                                    src="assets/Carrusel3.webp"
+                                    alt="Momento 1"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div class="slide">
+                                <img
+                                    src="assets/Carrusel4.webp"
+                                    alt="Momento 1"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </div>
+                        <button
+                            class="slider__btn slider__btn--prev"
+                            id="slide-prev"
+                            aria-label="Anterior"
+                        >
+                            ‹
+                        </button>
+                        <button
+                            class="slider__btn slider__btn--next"
+                            id="slide-next"
+                            aria-label="Siguiente"
+                        >
+                            ›
+                        </button>
+                        <div class="slider__dots" id="slider-dots"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ UBICACIÓN ============ -->
+            <section class="section location" id="ubicacion">
+                <div class="wrap location__grid">
+                    <div class="location__text reveal" data-reveal>
+                        <p class="eyebrow">📍 Te esperamos aquí</p>
+                        <h2 class="h2 sticker">La ubicación</h2>
+                        <p class="lead">
+                            Av. Francisco Morazán 100<br />Col. La Pradera, Del
+                            G.A.M. CDMX
+                        </p>
+                        <a
+                            class="btn"
+                            href="https://www.google.com/maps/search/?api=1&query=Av+Francisco+Morazan+100+Col+La+Pradera"
+                            target="_blank"
+                            rel="noopener"
+                            >Abrir en Google Maps 🗺️</a
+                        >
+                    </div>
+                    <div class="location__map reveal" data-reveal>
+                        <iframe
+                            title="Mapa del lugar"
+                            src="https://maps.google.com/maps?q=Av%20Francisco%20Morazan%20100%20Col%20La%20Pradera&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ AGRADECIMIENTOS ============ -->
+            <section class="section thanks">
+                <div class="wrap center">
+                    <span class="thanks__emoji reveal" data-reveal
+                        >🐷🐮🐔🐴🦜</span
+                    >
+                    <h2 class="h2 sticker reveal" data-reveal>
+                        ¡Gracias por venir!
+                    </h2>
+                    <p class="lead reveal" data-reveal>
+                        Tu presencia es el mejor regalo para Dany. Ven con ropa
+                        cómoda, muchas ganas de jugar y una gran sonrisa. ¡Nos
+                        vemos en la granja! 💛
+                    </p>
+                </div>
+            </section>
+
+            <!-- ============ CONFIRMACIÓN DE ASISTENCIA (RSVP) ============ -->
+            <section class="section rsvp" id="rsvp">
+                <div class="wrap">
+                    <p class="eyebrow center reveal" data-reveal>
+                        💌 No faltes a la granja
+                    </p>
+                    <h2 class="h2 sticker center reveal" data-reveal>
+                        Confirma tu asistencia
+                    </h2>
+                    <p class="lead center reveal" data-reveal>
+                        Ayúdanos a preparar todo para Dany. ¡Por favor déjanos
+                        tus datos de confirmación!
+                    </p>
+
+                    <!-- Contador de confirmaciones -->
+                    <div class="counter reveal" data-reveal>
+                        <span class="counter__emoji">🎉</span>
+                        <span
+                            class="counter__num"
+                            id="conf-count"
+                            data-count="0"
+                            >0</span
+                        >
+                        <span class="counter__label"
+                            >invitados ya confirmaron</span
+                        >
+                    </div>
+
+                    <!-- Formspree: reemplaza TU_ID por tu identificador (formspree.io/f/TU_ID) -->
+                    <form
+                        class="form reveal"
+                        data-reveal
+                        id="rsvp-form"
+                        action="https://formspree.io/f/xwvgwepd"
+                        method="POST"
+                        novalidate
+                    >
+                        <div class="form__row">
+                            <label class="field">
+                                <span class="field__label"
+                                    >Nombre completo *</span
+                                >
+                                <input
+                                    class="field__input"
+                                    type="text"
+                                    name="nombre"
+                                    required
+                                    autocomplete="name"
+                                    placeholder="Tu nombre"
+                                />
+                            </label>
+                            <label class="field">
+                                <span class="field__label"
+                                    >Teléfono / WhatsApp *</span
+                                >
+                                <input
+                                    class="field__input"
+                                    type="tel"
+                                    name="telefono"
+                                    required
+                                    autocomplete="tel"
+                                    placeholder="(00) 0000 0000"
+                                />
+                            </label>
+                        </div>
+
+                        <div class="form__row">
+                            <label class="field">
+                                <span class="field__label"
+                                    >Número de asistentes *</span
+                                >
+                                <select
+                                    class="field__input"
+                                    name="asistentes"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Elige una opción
+                                    </option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option value="8 o más">8 o más</option>
+                                </select>
+                            </label>
+                            <label class="field">
+                                <span class="field__label"
+                                    >¿Nos acompañas? *</span
+                                >
+                                <select
+                                    class="field__input"
+                                    name="confirmacion"
+                                    required
+                                >
+                                    <option value="" disabled selected>
+                                        Elige una opción
+                                    </option>
+                                    <option value="Sí asistiré">
+                                        Sí asistiré 🎉
+                                    </option>
+                                    <option value="No podré asistir">
+                                        No podré asistir 😢
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <label class="field">
+                            <span class="field__label"
+                                >Un mensaje para Dany (opcional)</span
+                            >
+                            <textarea
+                                class="field__input field__input--area"
+                                name="mensaje"
+                                rows="4"
+                                placeholder="¡Escribe algo bonito! 💛"
+                            ></textarea>
+                        </label>
+
+                        <!-- Asunto del correo que recibirás -->
+                        <input
+                            type="hidden"
+                            name="_subject"
+                            value="Nueva confirmación · La Granja de Dany"
+                        />
+
+                        <div class="center">
+                            <button
+                                class="btn btn--pulse"
+                                type="submit"
+                                id="rsvp-submit"
+                            >
+                                Enviar confirmación 🎈
+                            </button>
+                        </div>
+
+                        <p
+                            class="form__msg"
+                            id="form-msg"
+                            role="status"
+                            aria-live="polite"
+                            hidden
+                        ></p>
+                        <div class="center">
+                            <a
+                                class="btn btn--wa"
+                                id="wa-copy"
+                                href="#"
+                                target="_blank"
+                                rel="noopener"
+                                hidden
+                                >Enviar copia por WhatsApp 💬</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ============ BANNER DE CIERRE ============ -->
+            <section class="closing">
+                <div class="closing__band" aria-hidden="true">
+                    🌾 🐮 🌻 🐔 🚜 🐴 🌾 🐮 🌻 🐔 🚜 🐴 🌾 🐮 🌻 🐔 🚜 🐴 🌾 🐮
+                    🌻 🐔 🚜 🐴
+                </div>
+                <div class="wrap center closing__inner">
+                    <h2 class="closing__title sticker reveal" data-reveal>
+                        ¡Te esperamos<br />en la granja!
+                    </h2>
+                    <a class="btn btn--pulse reveal" data-reveal href="#rsvp"
+                        >Confirmar asistencia 🎈</a
+                    >
+                </div>
+            </section>
+        </main>
+
+        <!-- ============ FOOTER ============ -->
+        <footer class="footer" id="contacto">
+            <div class="wrap footer__grid">
+                <div class="footer__col">
+                    <p class="footer__brand sticker">La Granja de Dany</p>
+                    <p class="footer__muted">Sábado 29 de agosto · 10:00 am</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__h">Contacto</h4>
+                    <p>🙎🏻‍♀️ Mayra</p>
+                    <p><a href="tel:+525529050483">📞 (52) 552905 0483</a></p>
+                    <p>
+                        <a
+                            href="https://wa.me/525529050483"
+                            target="_blank"
+                            rel="noopener"
+                            >💬 WhatsApp</a
+                        >
+                    </p>
+                    <p>🙎🏾‍♂️ Daniel</p>
+                    <p>📞 (52) 554135 5766</p>
+                </div>
+                <div class="footer__col">
+                    <h4 class="footer__h">Ubicación</h4>
+                    <p>📍 Av. Francisco Morazán 100</p>
+                    <p class="footer__muted">Col. La Pradera, G.A.M.</p>
+                </div>
+            </div>
+            <p class="footer__copy">
+                Hecho con 💛 por Luis Daniel para el cumple de Dany
+            </p>
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+</html>
