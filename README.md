@@ -44,21 +44,13 @@ Cambia la fecha/hora del evento.
    - El formulario se envía sin recargar la página y muestra un mensaje de "¡Gracias!".
    - Si dejas `TU_ID` sin cambiar, el sitio avisará que falta configurarlo.
 
-**Copia por WhatsApp + contador** — al inicio de `script.js` hay un bloque `CONFIGURACIÓN`:
+**Copia por WhatsApp** — al inicio de `script.js` hay un bloque `CONFIGURACIÓN`:
 ```js
 const HOST_WHATSAPP = "520000000000"; // tu número (código país + número, solo dígitos)
-const CONF_BASE = 0;                   // número inicial del contador
-const COUNTER_ENDPOINT = "";           // opcional: backend para un contador compartido real
 ```
-- **Copia por WhatsApp**: tras confirmar, aparece un botón verde que abre WhatsApp con un mensaje
-  prellenado (nombre, teléfono, asistentes, confirmación y mensaje) hacia `HOST_WHATSAPP`.
-  Cambia `520000000000` por tu número real (ej. México: `52` + 10 dígitos).
-- **Contador "invitados ya confirmaron"**: sube automáticamente cuando alguien confirma "Sí asistiré"
-  (suma el número de asistentes) y se anima al aparecer en pantalla.
-  ⚠️ Al ser un sitio estático, el conteo se guarda **en el navegador de cada visitante**
-  (`localStorage`), no es un total compartido en tiempo real entre todos.
-  Para un contador realmente compartido, crea un backend/servicio que devuelva `{ "value": N }`
-  y ponlo en `COUNTER_ENDPOINT`; el sitio lo usará automáticamente.
+Tras confirmar, aparece un botón verde que abre WhatsApp con un mensaje
+prellenado (nombre, teléfono, asistentes, confirmación y mensaje) hacia `HOST_WHATSAPP`.
+Cambia `520000000000` por tu número real (ej. México: `52` + 10 dígitos).
 
 **Contacto (footer)** → reemplaza los teléfonos `520000000000` y enlaces de WhatsApp por los reales.
 

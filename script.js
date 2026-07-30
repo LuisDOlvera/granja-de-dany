@@ -7,11 +7,6 @@
     /* =========== CONFIGURACIÓN (edita aquí) =========== */
     // Número del anfitrión que recibirá la copia por WhatsApp (código país + número, solo dígitos)
     const HOST_WHATSAPP = "525529050483";
-    // Número inicial del contador (por si quieres empezar en algo distinto de 0)
-    const CONF_BASE = 0;
-    // Opcional: endpoint de un contador compartido real (ej. tu backend). Déjalo vacío para usar el navegador.
-    const COUNTER_ENDPOINT = ""; // p.ej. "https://api.tu-servicio.com/granja-dany"
-    const STORE_KEY = "granja_dany_confirmados";
 
     /* -------- 0. Música de fondo -------- */
     const music = document.getElementById("bg-music");
@@ -212,95 +207,7 @@
         );
     }
 
-    /* -------- 5. Contador de confirmaciones -------- */
-    const countEl = document.getElementById("conf-count");
-
-    const getLocalCount = () => {
-        const n = parseInt(localStorage.getItem(STORE_KEY), 10);
-        return Number.isFinite(n) ? n : 0;
-    };
-    const addLocalCount = (extra) => {
-        const total = getLocalCount() + extra;
-        try {
-            localStorage.setItem(STORE_KEY, String(total));
-        } catch (_) {}
-        return total;
-    };
-    const currentTotal = () => CONF_BASE + getLocalCount();
-
-    function animateCount(to) {
-        if (!countEl) return;
-        const from = parseInt(countEl.dataset.count, 10) || 0;
-        countEl.dataset.count = String(to);
-        const prefersReduced = window.matchMedia(
-            "(prefers-reduced-motion: reduce)",
-        ).matches;
-        if (prefersReduced || from === to) {
-            countEl.textContent = to;
-            return;
-        }
-        const dur = 900,
-            start = performance.now();
-        const ease = (t) => 1 - Math.pow(1 - t, 3);
-        function step(now) {
-            const p = Math.min((now - start) / dur, 1);
-            countEl.textContent = Math.round(from + (to - from) * ease(p));
-            if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-    }
-
-    function bumpCounter() {
-        const box = countEl && countEl.closest(".counter");
-        if (!box) return;
-        box.classList.remove("counter--bump");
-        void box.offsetWidth; // reinicia la animación
-        box.classList.add("counter--bump");
-    }
-
-    // Contador compartido opcional (si configuraste un endpoint), si no usa el navegador
-    async function loadSharedCount() {
-        if (!COUNTER_ENDPOINT) return null;
-        try {
-            const r = await fetch(COUNTER_ENDPOINT, {
-                headers: { Accept: "application/json" },
-            });
-            if (!r.ok) return null;
-            const d = await r.json();
-            return typeof d.value === "number" ? d.value : null;
-        } catch (_) {
-            return null;
-        }
-    }
-
-    // Anima el contador cuando entra en pantalla
-    if (countEl) {
-        let counterShown = false;
-        const startCounter = async () => {
-            if (counterShown) return;
-            counterShown = true;
-            const shared = await loadSharedCount();
-            animateCount(shared !== null ? shared : currentTotal());
-        };
-        if ("IntersectionObserver" in window) {
-            const co = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((e) => {
-                        if (e.isIntersecting) {
-                            startCounter();
-                            co.disconnect();
-                        }
-                    });
-                },
-                { threshold: 0.4 },
-            );
-            co.observe(countEl);
-        } else {
-            startCounter();
-        }
-    }
-
-    /* -------- 6. Formulario RSVP (Formspree) -------- */
+    /* -------- 5. Formulario RSVP (Formspree) -------- */
     const form = document.getElementById("rsvp-form");
     if (form) {
         const msg = document.getElementById("form-msg");
@@ -324,7 +231,7 @@
                 "",
                 "👤 Nombre: " + (data.nombre || "-"),
                 "📞 Teléfono: " + (data.telefono || "-"),
-                "👨‍👩‍👧 Asistentes: " + (data.asistentes || "-"),
+                "👥 Asistentes: " + (data.asistentes || "-"),
                 "✅ Confirmación: " + (data.confirmacion || "-"),
             ];
             if (data.mensaje && data.mensaje.trim())
@@ -333,26 +240,13 @@
             return "https://wa.me/" + HOST_WHATSAPP + "?text=" + texto;
         };
 
-        const parseAttendees = (v) => {
-            const n = parseInt(v, 10);
-            return Number.isFinite(n) ? n : 1;
-        };
-
-        // Cierra el flujo tras una confirmación válida: contador + WhatsApp + mensaje
+        // Cierra el flujo tras una confirmación válida: WhatsApp + mensaje
         const finishConfirmation = (data, emailed) => {
             const asiste = /^S/i.test(data.confirmacion || "");
-
-            // Contador: solo suma si la persona SÍ asistirá y no se contó ya en este equipo
-            if (asiste && !COUNTER_ENDPOINT) {
-                addLocalCount(parseAttendees(data.asistentes));
-                animateCount(currentTotal());
-                bumpCounter();
-            }
 
             // Botón de copia por WhatsApp
             if (waBtn) {
                 waBtn.href = buildWhatsApp(data);
-                waBtn.hidden = false;
             }
 
             const base = asiste
@@ -389,7 +283,7 @@
             const fd = new FormData(form);
             const data = Object.fromEntries(fd.entries());
 
-            // Modo demo: si aún no se configuró Formspree, confirma localmente (contador + WhatsApp)
+            // Modo demo: si aún no se configuró Formspree, confirma localmente (WhatsApp)
             if (form.action.includes("TU_ID")) {
                 finishConfirmation(data, false);
                 form.reset();
@@ -432,7 +326,7 @@
         });
     }
 
-    /* -------- 7. Scroll reveal -------- */
+    /* -------- 6. Scroll reveal -------- */
     const reveals = document.querySelectorAll("[data-reveal]");
     if ("IntersectionObserver" in window) {
         const io = new IntersectionObserver(

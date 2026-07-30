@@ -992,53 +992,6 @@ a {
         radial-gradient(circle at 85% 90%, #fdecc4, transparent 40%),
         var(--crema);
 }
-.counter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.1rem;
-    max-width: 640px;
-    margin: 1.6rem auto 0;
-    padding: 1.1rem 1.5rem;
-    background: linear-gradient(180deg, #fff, var(--crema-2));
-    border: 4px dashed var(--rosa);
-    border-radius: var(--radio);
-    box-shadow: var(--sombra-sm);
-}
-.counter__emoji {
-    font-size: 1.6rem;
-    line-height: 1;
-}
-.counter__num {
-    font-family: var(--f-display);
-    font-weight: 800;
-    font-size: clamp(2.4rem, 8vw, 3.6rem);
-    line-height: 1;
-    color: var(--rosa-osc);
-}
-.counter__label {
-    font-family: var(--f-mid);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.8rem;
-    color: var(--madera);
-}
-.counter--bump {
-    animation: countBump 0.5s ease;
-}
-@keyframes countBump {
-    0% {
-        transform: scale(1);
-    }
-    40% {
-        transform: scale(1.06);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
 .btn--wa {
     --btn-bg: #25d366;
     box-shadow:
