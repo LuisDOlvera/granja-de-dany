@@ -35,22 +35,15 @@ Cambia la fecha/hora del evento.
   `<span class="ph">Tu foto aquí</span>` por `<img src="assets/tu-foto.jpg" alt="..." loading="lazy" />`.
 - **Carrusel**: igual, en la sección `<!-- CARRUSEL -->` cambia cada `.ph` por un `<img>`.
 
-**Confirmación de asistencia (Formspree)** — el formulario ya está listo, solo falta conectarlo:
-1. Crea una cuenta gratis en https://formspree.io y un nuevo formulario.
-2. Copia tu endpoint (se ve así: `https://formspree.io/f/abcdwxyz`).
-3. En `index.html`, busca `action="https://formspree.io/f/TU_ID"` y reemplaza `TU_ID`
-   por el tuyo. ¡Eso es todo!
-   - Las confirmaciones te llegarán por correo (el que registraste en Formspree).
-   - El formulario se envía sin recargar la página y muestra un mensaje de "¡Gracias!".
-   - Si dejas `TU_ID` sin cambiar, el sitio avisará que falta configurarlo.
-
-**Copia por WhatsApp** — al inicio de `script.js` hay un bloque `CONFIGURACIÓN`:
+**Confirmación de asistencia (WhatsApp)** — el formulario no usa backend ni correo:
+al inicio de `script.js` hay un bloque `CONFIGURACIÓN`:
 ```js
 const HOST_WHATSAPP = "520000000000"; // tu número (código país + número, solo dígitos)
 ```
-Tras confirmar, aparece un botón verde que abre WhatsApp con un mensaje
-prellenado (nombre, teléfono, asistentes, confirmación y mensaje) hacia `HOST_WHATSAPP`.
 Cambia `520000000000` por tu número real (ej. México: `52` + 10 dígitos).
+Al pulsar "Confirmar por WhatsApp", el sitio valida los campos y abre WhatsApp
+en una pestaña nueva con un mensaje prellenado (nombre, teléfono, asistentes,
+confirmación y mensaje) dirigido a `HOST_WHATSAPP`. No se envía ningún correo.
 
 **Contacto (footer)** → reemplaza los teléfonos `520000000000` y enlaces de WhatsApp por los reales.
 

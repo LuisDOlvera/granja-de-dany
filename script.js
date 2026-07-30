@@ -4,7 +4,7 @@
 (function () {
     "use strict";
 
-    /* =========== CONFIGURACIÓN (edita aquí) =========== */
+    /* =========== CONFIGURACIÓN =========== */
     // Número del anfitrión que recibirá la copia por WhatsApp (código país + número, solo dígitos)
     const HOST_WHATSAPP = "525529050483";
 
@@ -12,7 +12,7 @@
     const music = document.getElementById("bg-music");
     const musicBtn = document.getElementById("music-toggle");
     if (music && musicBtn) {
-        music.volume = 0.5;
+        music.volume = 0.4;
         let userMuted = false;
 
         const updateBtn = () => {
@@ -27,7 +27,10 @@
 
         const tryPlay = () => {
             if (userMuted) return;
-            music.play().then(updateBtn).catch(() => {});
+            music
+                .play()
+                .then(updateBtn)
+                .catch(() => {});
         };
 
         // Intenta reproducir de inmediato; si el navegador lo bloquea,
@@ -207,12 +210,10 @@
         );
     }
 
-    /* -------- 5. Formulario RSVP (Formspree) -------- */
+    /* -------- 5. Formulario RSVP (confirmación por WhatsApp) -------- */
     const form = document.getElementById("rsvp-form");
     if (form) {
         const msg = document.getElementById("form-msg");
-        const submit = document.getElementById("rsvp-submit");
-        const waBtn = document.getElementById("wa-copy");
 
         const showMsg = (text, ok) => {
             msg.textContent = text;
@@ -240,28 +241,7 @@
             return "https://wa.me/" + HOST_WHATSAPP + "?text=" + texto;
         };
 
-        // Cierra el flujo tras una confirmación válida: WhatsApp + mensaje
-        const finishConfirmation = (data, emailed) => {
-            const asiste = /^S/i.test(data.confirmacion || "");
-
-            // Botón de copia por WhatsApp
-            if (waBtn) {
-                waBtn.href = buildWhatsApp(data);
-            }
-
-            const base = asiste
-                ? "¡Gracias! Confirmación registrada. 🎉 Nos vemos en la granja."
-                : "¡Gracias por avisar! 💛 Te vamos a extrañar.";
-            showMsg(
-                base +
-                    (emailed
-                        ? ""
-                        : " (modo demo: configura Formspree para recibirla por correo)"),
-                true,
-            );
-        };
-
-        form.addEventListener("submit", async (e) => {
+        form.addEventListener("submit", (e) => {
             e.preventDefault();
 
             // Validación nativa + marcado de campos con error
@@ -279,50 +259,19 @@
                 return;
             }
 
-            // Captura los datos antes de enviar/limpiar
             const fd = new FormData(form);
             const data = Object.fromEntries(fd.entries());
+            const asiste = /^S/i.test(data.confirmacion || "");
 
-            // Modo demo: si aún no se configuró Formspree, confirma localmente (WhatsApp)
-            if (form.action.includes("TU_ID")) {
-                finishConfirmation(data, false);
-                form.reset();
-                return;
-            }
+            window.open(buildWhatsApp(data), "_blank", "noopener");
 
-            const originalText = submit.textContent;
-            submit.disabled = true;
-            submit.textContent = "Enviando…";
-
-            try {
-                const res = await fetch(form.action, {
-                    method: "POST",
-                    body: fd,
-                    headers: { Accept: "application/json" },
-                });
-                if (res.ok) {
-                    finishConfirmation(data, true);
-                    form.reset();
-                } else {
-                    const err = await res.json().catch(() => ({}));
-                    const detail = err.errors
-                        ? err.errors.map((x) => x.message).join(", ")
-                        : "";
-                    showMsg(
-                        "Hubo un problema al enviar" +
-                            (detail ? ": " + detail : ". Intenta de nuevo."),
-                        false,
-                    );
-                }
-            } catch (_) {
-                showMsg(
-                    "No se pudo enviar. Revisa tu conexión e intenta otra vez.",
-                    false,
-                );
-            } finally {
-                submit.disabled = false;
-                submit.textContent = originalText;
-            }
+            showMsg(
+                asiste
+                    ? "¡Gracias! Se abrió WhatsApp para confirmar tu asistencia. 🎉"
+                    : "¡Gracias por avisar! Se abrió WhatsApp con tu mensaje. 💛",
+                true,
+            );
+            form.reset();
         });
     }
 

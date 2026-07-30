@@ -194,12 +194,12 @@
                             <h3 class="card__title">Hora</h3>
                             <p class="card__big">10:00 am</p>
                             <p class="card__sub">
-                                Se llevará a cabo la Ceremonia Religiosa de
+                                Llevaremos a cabo la Ceremonia Religiosa de
                                 Presentación ⛪️ con motivo de los 3 años
                                 cumplidos de Dany 👧🏻. Se celebrará dentro del
                                 salón de fiestas Zass 🛝 y dará comienzo en
                                 punto de las 10:00 am. ⏰ Por lo cual tu
-                                presencia y tu puntualidad a esta Ceremonia es
+                                presencia y tu puntualidad a esta ceremonia es
                                 muy importante para nosotros.
                             </p>
                         </article>
@@ -229,6 +229,17 @@
                     </h2>
                     <div class="grid">
                         <figure
+                            class="grid__item grid__item--wide reveal"
+                            data-reveal
+                            style="--ph: 4"
+                        >
+                            <img
+                                src="assets/Dany-Pepe.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
                             class="grid__item grid__item--tall reveal"
                             data-reveal
                             style="--ph: 1"
@@ -257,6 +268,17 @@
                         >
                             <img
                                 src="assets/Dany-Lola.webp"
+                                alt="Foto de Dany"
+                                loading="lazy"
+                            />
+                        </figure>
+                        <figure
+                            class="grid__item reveal"
+                            data-reveal
+                            style="--ph: 3"
+                        >
+                            <img
+                                src="assets/Dany-Sobrino3.webp"
                                 alt="Foto de Dany"
                                 loading="lazy"
                             />
@@ -414,13 +436,11 @@
                         tus datos de confirmación!
                     </p>
 
-                    <!-- Formspree: reemplaza TU_ID por tu identificador (formspree.io/f/TU_ID) -->
+                    <!-- Confirmación por WhatsApp: no requiere backend ni correo -->
                     <form
                         class="form reveal"
                         data-reveal
                         id="rsvp-form"
-                        action="https://formspree.io/f/xwvgwepd"
-                        method="POST"
                         novalidate
                     >
                         <div class="form__row">
@@ -499,7 +519,7 @@
 
                         <label class="field">
                             <span class="field__label"
-                                >Un mensaje para Dany (opcional)</span
+                                >Un mensaje para Dany</span
                             >
                             <textarea
                                 class="field__input field__input--area"
@@ -509,20 +529,13 @@
                             ></textarea>
                         </label>
 
-                        <!-- Asunto del correo que recibirás -->
-                        <input
-                            type="hidden"
-                            name="_subject"
-                            value="Nueva confirmación · La Granja de Dany"
-                        />
-
                         <div class="center">
                             <button
-                                class="btn btn--pulse"
+                                class="btn btn--wa btn--pulse"
                                 type="submit"
-                                id="rsvp-submit"
+                                id="wa-copy"
                             >
-                                Enviar confirmación 🎈
+                                Confirmar por WhatsApp 💬
                             </button>
                         </div>
 
@@ -533,16 +546,6 @@
                             aria-live="polite"
                             hidden
                         ></p>
-                        <div class="center">
-                            <a
-                                class="btn btn--wa"
-                                id="wa-copy"
-                                href="#"
-                                target="_blank"
-                                rel="noopener"
-                                >Enviar copia por WhatsApp 💬</a
-                            >
-                        </div>
                     </form>
                 </div>
             </section>
@@ -558,7 +561,7 @@
                         ¡Te esperamos<br />en la granja!
                     </h2>
                     <a class="btn btn--pulse reveal" data-reveal href="#rsvp"
-                        >Confirmar asistencia 🎈</a
+                        >No olvides confirmar asistencia 🎈</a
                     >
                 </div>
             </section>
@@ -583,17 +586,28 @@
                             >💬 WhatsApp</a
                         >
                     </p>
-                    <p>🙎🏾‍♂️ Daniel</p>
-                    <p>📞 (52) 554135 5766</p>
+                    <p>👨🏽‍💻 Luis Daniel</p>
+                    <p><a href="tel:+525541355766">📞 (52) 554135 5766</a></p>
+                    <p>
+                        <a
+                            href="https://wa.me/525541355766"
+                            target="_blank"
+                            rel="noopener"
+                            >💬 WhatsApp</a
+                        >
+                    </p>
                 </div>
                 <div class="footer__col">
                     <h4 class="footer__h">Ubicación</h4>
                     <p>📍 Av. Francisco Morazán 100</p>
-                    <p class="footer__muted">Col. La Pradera, G.A.M.</p>
+                    <p class="footer__muted">
+                        Col. La Pradera, Del. G.A.M. CDMX
+                    </p>
                 </div>
             </div>
             <p class="footer__copy">
-                Hecho con 💛 por Luis Daniel para el cumple de Dany
+                Hecho con 💛 por Luis Daniel para el cumple de Dany <br />Si te
+                gustó esta invitación contáctame! 😉
             </p>
         </footer>
 

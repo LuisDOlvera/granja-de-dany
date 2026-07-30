@@ -1092,11 +1092,6 @@ select.field__input {
     color: #c23b3b;
     border: 2px solid #e88;
 }
-#rsvp-submit[disabled] {
-    opacity: 0.6;
-    cursor: wait;
-}
-
 /* =====================================================
    SCROLL REVEAL
    ===================================================== */
